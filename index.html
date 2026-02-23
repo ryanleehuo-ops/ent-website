@@ -486,7 +486,7 @@
           <div class="credential-dot"></div>
           <div class="credential-text">
             <strong>Hospital Affiliation</strong>
-            NewYork-Presbyterian Queens — Staff since 2000
+            NewYork-Presbyterian Queens
           </div>
         </div>
       </div>
@@ -623,7 +623,7 @@
             <div class="contact-icon">📍</div>
             <div>
               <h4>Address</h4>
-              <p>38-08 Union Street, Suite 3D<br>Flushing, NY 11354<br></p>
+              <p>38-08 Union Street, Suite 3D<br>Flushing, NY 11354</p>
             </div>
           </div>
           <div class="contact-item fade-in">
@@ -677,6 +677,71 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+  <!-- Google Translate -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'zh-CN,zh-TW',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <style>
+    #translate-fab {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+    }
+    #translate-toggle {
+      background: var(--navy);
+      border: 2px solid var(--gold);
+      color: white;
+      border-radius: 50px;
+      padding: 10px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(13,31,60,0.25);
+      transition: background 0.2s;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+    }
+    #translate-toggle:hover { background: var(--navy-light); }
+    #translate-toggle .lang-label { color: var(--gold); }
+    .goog-te-banner-frame, .skiptranslate { display: none !important; }
+    body { top: 0 !important; }
+    .goog-te-gadget { display: none !important; }
+  </style>
+
+  <script>
+    const fab = document.createElement('div');
+    fab.id = 'translate-fab';
+    fab.innerHTML = `<button id="translate-toggle"><span class="lang-label">中文</span> / EN</button>`;
+    document.body.appendChild(fab);
+
+    let isChinese = false;
+    document.getElementById('translate-toggle').addEventListener('click', function () {
+      isChinese = !isChinese;
+      if (isChinese) {
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = 'zh-CN';
+          select.dispatchEvent(new Event('change'));
+        }
+        this.innerHTML = '<span class="lang-label">EN</span> / 中文';
+      } else {
+        window.location.reload();
+      }
+    });
   </script>
 </body>
 </html>
