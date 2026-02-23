@@ -728,7 +728,8 @@
     fab.innerHTML = `<button id="translate-toggle"><span class="lang-label">中文</span> / EN</button>`;
     document.body.appendChild(fab);
 
-    let isChinese = false;
+    // Check if page is already translated (cookie present)
+    let isChinese = document.cookie.includes('googtrans');
     document.getElementById('translate-toggle').addEventListener('click', function () {
       isChinese = !isChinese;
       if (isChinese) {
@@ -739,7 +740,16 @@
         }
         this.innerHTML = '<span class="lang-label">EN</span> / 中文';
       } else {
-        window.location.reload();
+        // Clear Google Translate cookie and reload to restore English
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+        const restore = document.querySelector('.goog-te-combo');
+        if (restore) {
+          restore.value = '';
+          restore.dispatchEvent(new Event('change'));
+        }
+        // Small delay then reload to ensure English is restored
+        setTimeout(() => window.location.reload(), 200);
       }
     });
   </script>
